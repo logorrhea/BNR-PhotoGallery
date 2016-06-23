@@ -67,12 +67,11 @@ public class FlickrFetchr {
                     .build().toString();
 
             String jsonString = getUrlString(url);
-            Log.i(TAG, "Received JSON: " + jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
             parseItems(items, jsonBody);
             Log.i(TAG, "#Items: " + items.size());
         } catch (IOException e) {
-            Log.i(TAG, "Failed to fetch items", e);
+            Log.e(TAG, "Failed to fetch items", e);
         } catch (JSONException e) {
             Log.e(TAG, "Failed to parse JSON", e);
         }
@@ -95,7 +94,6 @@ public class FlickrFetchr {
             item.setUrl(photo.getString("url_s"));
 
             items.add(item);
-            Log.i(TAG, item.toString());
         }
     }
 }
