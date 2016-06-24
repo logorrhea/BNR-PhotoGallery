@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class PhotoGalleryFragment extends Fragment {
                     @Override
                     public void onThumbnailDownloaded(PhotoHolder target, Bitmap thumbnail) {
                         Drawable drawable = new BitmapDrawable(getResources(), thumbnail);
-                        target.bindDrawable(drawable);
+//                        target.bindDrawable(drawable);
                     }
                 }
         );
@@ -187,8 +189,11 @@ public class PhotoGalleryFragment extends Fragment {
             mItemImageView = (ImageView) itemView.findViewById(R.id.fragment_photo_gallery_image_view);
         }
 
-        public void bindDrawable(Drawable drawable) {
-            mItemImageView.setImageDrawable(drawable);
+        public void bindDrawable(Drawable drawable, String url) {
+            Picasso.with(getActivity())
+                    .load(url)
+                    .placeholder(drawable)
+                    .into(mItemImageView);
         }
     }
 
@@ -211,8 +216,7 @@ public class PhotoGalleryFragment extends Fragment {
         public void onBindViewHolder(PhotoHolder holder, int position) {
             GalleryItem item = mGalleryItems.get(position);
             Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
-            holder.bindDrawable(placeholder);
-            mThumbnailDownloader.queueThumbnail(holder, item.getUrl());
+            holder.bindDrawable(placeholder, item.getUrl());
         }
 
         @Override
